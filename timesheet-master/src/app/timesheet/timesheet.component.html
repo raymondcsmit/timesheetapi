@@ -1,0 +1,116 @@
+<form [formGroup]="timesheetForm" novalidate (ngSubmit)="validate()">
+    <div class="form-group row">
+  
+        <p>
+          mtimesheet works!
+        </p>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+                <select formControlName="selectedEmployee" (ngModelChange)="onrecordChange()">  
+                    <option *ngFor='let emp of employees' [value]='emp.id' > {{emp.name}}</option>
+                  </select>
+              </div>
+          <div class="col-sm-6">
+            Select Week
+            <p-calendar  formControlName="date" (ngModelChange)="onrecordChange()"></p-calendar>
+           <span> week from date {{timesheetForm.value.startDate}} to date {{timesheetForm.value.endDate}} </span>
+          </div>
+          <div class="col-sm-2">
+            
+          <button  type="submit" (click)="addRecords()">
+              + Add
+             
+           </button>
+           </div>
+
+        </div>
+        
+<div class="form-group row">
+    
+        <table class="table" formArrayName="records">
+              <thead class="theader">
+                <tr>
+                  <th>Task</th>
+               
+                  
+                          <th *ngFor="let item of wdays | dayenumToArray; let ind = index;">
+                              {{ item }}: {{ind}}
+                            </th> 
+                     
+                
+                </tr>
+              </thead>
+              <tbody >
+                <tr  *ngFor="let rec of getRecords(timesheetForm); let i = index" [formGroupName]="i">
+                  <td>
+                      <div *ngIf="listTasks" >
+                          <select formControlName="task">  
+                              <option *ngFor='let item of listTasks' [value]='item.id' > {{item.name}}</option>
+                            </select>
+
+          </div>
+                  </td>
+                
+                   
+               
+                    <td formArrayName="taskdetail" *ngFor="let dayfield of getRecordfields(rec); let k=index">
+                        <div  [formGroupName]="k">
+                            <input formControlName="hours"/>
+                          </div>
+
+                        </td>
+             
+                  
+                </tr>
+                
+              </tbody>
+          </table>
+   
+</div>
+      <div>
+        <table class="table">
+
+            <tr formArrayName="total">
+                <th>Total</th>
+             
+                
+                        <th *ngFor="let item of getSumfields(timesheetForm); let ind = index;" [formGroupName]="ind">
+                            <div  >
+                                <input formControlName="sum"/>
+                              </div>
+                          </th> 
+                   
+              
+              </tr>
+              <tr formArrayName="average">
+                  <th>Average</th>
+               
+                  
+                          <th *ngFor="let item of getAvgfields(timesheetForm); let ind = index;" [formGroupName]="ind">
+                              <div  >
+                                  <input formControlName="avg"/>
+                                </div>
+                            </th> 
+                     
+                
+                </tr>
+        </table>
+      </div>
+<div class="form-group row">
+    <div class="col-8">
+    </div>
+    <div class="col-2">
+<button  type="button" (click)="backtoemployee()">
+    Back to Employee
+ </button>
+</div>
+<div class="col-2">
+ <button   type="submit" (click)="save()">
+    Save
+ </button>
+</div>
+ </div>
+
+        </form>

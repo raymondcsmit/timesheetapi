@@ -1,0 +1,18 @@
+<h1>Employee List</h1>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Weekly Effort (Total)</th>
+        <th>Weekly Effort (Average)</th>
+    </tr>
+    <tr *ngFor="let item of employees">
+        <td>{{item.id}}</td>
+        <td>{{item.code}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.total}}</td>
+        <td>{{item.average}}</td>
+    </tr>
+</table>
